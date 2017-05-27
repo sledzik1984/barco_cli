@@ -19,13 +19,17 @@ int main(int argc, char *argv[])
     struct sockaddr_in serv_addr;
     struct hostent *server;
 
-    if (argc < 3) {
+    if (argc < 2) {
 
        fprintf(stderr,"Barco Command Line Tool\nUsage: %s hostname\n", argv[0]);
        exit(0);
     }
-    portno = atoi(argv[2]);
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+
+	fprintf(stderr,"Barco Command Line Tool\n");
+
+    
+	portno = 43680;
+	sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) 
         error("ERROR opening socket");
     server = gethostbyname(argv[1]);
