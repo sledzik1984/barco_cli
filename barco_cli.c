@@ -5,7 +5,15 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <argp.h>
 #include <netdb.h> 
+
+
+
+//ARGP Definitions
+//ToDo: Make use of AGRP cmdline arguments
+
+
 
 void error(const char *msg)
 {
@@ -48,11 +56,26 @@ int main(int argc, char *argv[])
 
 	unsigned char lamp_timer[6];
 
+
 	lamp_timer[0]=0xfe;
 	lamp_timer[1]=0x00;
 	lamp_timer[2]=0x76;
 	lamp_timer[3]=0x90;
-	lamp_timer[4]=0x06;
+
+	//Checksum calculation
+	//
+	//All in bytes!
+	//
+	//(device_address + all bytest of request / response) modulo 100
+
+
+        int checksum;
+        checksum = (lamp_timer[1] + lamp_timer[2] + lamp_timer[3]) % 0x100;
+
+	//printf("Checksum: %02x\n",checksum);
+
+	
+	lamp_timer[4]=checksum;
 	lamp_timer[5]=0xff;
 
 
